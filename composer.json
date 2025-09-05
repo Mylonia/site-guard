@@ -1,0 +1,21 @@
+{
+  "name": "mylonia/site-guard",
+  "description": "Guard your website from visitors by requiring a password.",
+  "type": "laravel-package",
+  "require": {
+    "php": "^8.4",
+    "laravel/framework": "^11.0|^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mylonia\\SiteGuard\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Mylonia\\SiteGuard\\SiteGuardServiceProvider"
+      ]
+    }
+  }
+}
