@@ -6,13 +6,15 @@ Apply the middleware to your middleware of choice, and this will prevent visitin
 
 <img src="screenshot.png" alt="A simple password prompt.">
 
-## How to use
+## Installation
 
-Install the package with Composer:
+You can install the package with `composer`:
 
 ```bash
 composer require mylonia/site-guard
 ```
+
+## Usage
 
 First, set these environment variables:
 
@@ -37,12 +39,6 @@ This ensures that the production website is unaffected, but any potential `local
 
 ## Customization
 
-You can also globally disable Site Guard like this, which will disable the middleware even if it were otherwise to apply.
-
-```dotenv
-SITE_GUARD_ENABLED=false
-```
-
 You can also exclude particular routes by customising the `config` file.
 
 ```bash
@@ -52,3 +48,15 @@ php artisan vendor:publish --provider="Mylonia\SiteGuard\SiteGuardServiceProvide
 This will publish the custom `views` and the `site-guard` config file. You can customise `excluded_routes` to exclude particular routes. 
 
 By default, all `site_guard.*` routes are excluded, but you can add more this way. (You can use wildcards.)
+
+## Testing
+
+```bash
+composer test
+```
+
+To run all steps (larastan, rector, pint and test suite):
+
+```bash
+composer verify
+```
