@@ -2,9 +2,11 @@
 
 Protect your site from random visitors with a simple plain-text password guard, configurable in your `.env` file.
 
-Apply the middleware to your middleware of choice, and this will prevent visiting those routes when desired. Instead, a password prompt will be displayed:
+Apply the middleware to your service provider of choice, and this package will prevent visiting all routes by default. Instead, a password prompt will be displayed:
 
 <img src="screenshot.png" alt="A simple password prompt.">
+
+It is possible to customize the password page, and to customize which routes are accessible regardless of Site Guard's activation status.
 
 ## Installation
 
