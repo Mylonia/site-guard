@@ -2,6 +2,7 @@
 
 namespace Mylonia\SiteGuard;
 
+use Closure;
 use Illuminate\Support\ServiceProvider;
 
 class SiteGuardServiceProvider extends ServiceProvider

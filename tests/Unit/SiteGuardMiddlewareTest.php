@@ -39,6 +39,16 @@ class SiteGuardMiddlewareTest extends TestCase
         Route::shouldReceive('currentRouteName')->andReturn($name);
     }
 
+    public function test_exception_thrown_when_no_password_set(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('`SITE_GUARD_PASSWORD` is not configured in your `.env` file.');
+
+        config()->set('site-guard.password', null);
+
+        $this->assert(intercepted: true);
+    }
+
     public function test_allows_request_when_site_guard_disabled()
     {
         config(['site-guard.enabled' => true]);

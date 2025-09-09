@@ -10,13 +10,6 @@ use Illuminate\Routing\Controller;
 
 class SiteGuardController extends Controller
 {
-    public function __construct()
-    {
-        if (config('site-guard.password') == null) {
-            throw new \Exception("`SITE_GUARD_PASSWORD` is not configured in your `.env` file.");
-        }
-    }
-
     private function verifyPassword(string $password): bool
     {
         $expectedPassword = config('site-guard.password');

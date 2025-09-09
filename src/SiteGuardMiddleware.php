@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 class SiteGuardMiddleware
 {
+    /**
+     * @throws \Exception
+     */
     public function handle(Request $request, Closure $next)
     {
         if (!config('site-guard.enabled')) {
@@ -24,6 +27,10 @@ class SiteGuardMiddleware
 
         if ($this->isExcludedPath($request->path())) {
             return $next($request);
+        }
+
+        if (config('site-guard.password') == null) {
+            throw new \Exception("`SITE_GUARD_PASSWORD` is not configured in your `.env` file.");
         }
 
         return redirect()->route('site-guard.form')
