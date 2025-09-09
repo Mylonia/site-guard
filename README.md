@@ -16,11 +16,15 @@ composer require mylonia/site-guard
 
 ## Usage
 
+### Configuring a password
+
 First, set these environment variables:
 
 ```dotenv
 SITE_GUARD_PASSWORD=your-passphrase-here
 ```
+
+### Registering the middleware
 
 You can register the middleware under the conditions of your liking, for example in `AppServiceProvider`:
 
@@ -35,9 +39,9 @@ public function boot(Router $router): void
 }
 ```
 
-This ensures that the production website is unaffected, but any potential `local` or `staging` setup will display the message.
+This ensures that the production website is unaffected, but any potential `local` or `staging` setup will display the message. You can tweak this as desired.
 
-## Customization
+### Publishing assets
 
 You can also exclude particular routes by customising the `config` file.
 
@@ -45,18 +49,35 @@ You can also exclude particular routes by customising the `config` file.
 php artisan vendor:publish --provider="Mylonia\SiteGuard\SiteGuardServiceProvider"
 ```
 
-This will publish the custom `views` and the `site-guard` config file. You can customise `excluded_routes` to exclude particular routes. 
+This will publish the custom `views` and the `site-guard` config file. You can further customise the configuration file this way.
 
-By default, all `site_guard.*` routes are excluded, but you can add more this way. (You can use wildcards.)
+For example, you can adapt `excluded_routes` to exclude particular routes. By default, all `site_guard.*` routes are excluded, but you can add more this way. (You can use wildcards.)
+
+You can also customise which middleware is required to run when the Site Guard routes are visited, which may be necessary depending on your project.
 
 ## Testing
+
+To run the test suite:
 
 ```bash
 composer test
 ```
 
-To run all steps (larastan, rector, pint and test suite):
+To run all steps (including linting, static checks, etc.) please run:
 
 ```bash
 composer verify
 ```
+
+## Security Vulnerabilities
+
+Please get in touch with [info@mylonia.com](mailto:info@mylonia.com) to report a vulnerability.
+
+## Credits
+
+- [Nico Verbruggen](https://github.com/nicoverbruggen)
+- [All Contributors](https://github.com/mylonia/site-guard/contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

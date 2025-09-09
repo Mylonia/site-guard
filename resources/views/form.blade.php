@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Verification Required</title>
+    <title>Site Guard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -74,7 +74,6 @@
 <div class="container">
     <form method="POST" action="{{ route('site-guard.authenticate') }}">
         @csrf
-
         <div class="form-group">
             <label for="password">Password:</label>
             <input
