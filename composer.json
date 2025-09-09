@@ -6,9 +6,21 @@
     "php": "^8.4",
     "laravel/framework": "^11.0|^12.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0",
+    "orchestra/testbench": "^9.0",
+    "mockery/mockery": "^1.6",
+    "rector/rector": "^2.0",
+    "driftingly/rector-laravel": "^2.0"
+  },
   "autoload": {
     "psr-4": {
       "Mylonia\\SiteGuard\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mylonia\\SiteGuard\\Tests\\": "tests/"
     }
   },
   "extra": {
@@ -17,5 +29,10 @@
         "Mylonia\\SiteGuard\\SiteGuardServiceProvider"
       ]
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "rector": "vendor/bin/rector",
+    "rector-dry": "vendor/bin/rector --dry-run"
   }
 }

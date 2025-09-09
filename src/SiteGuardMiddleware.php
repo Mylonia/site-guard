@@ -39,14 +39,7 @@ class SiteGuardMiddleware
         $userProvidedRoutes = config('site-guard.excluded_routes', []);
 
         $excludedRoutes = array_merge($userProvidedRoutes, ['site-guard.*']);
-
-        foreach ($excludedRoutes as $pattern) {
-            if (fnmatch($pattern, $routeName)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($excludedRoutes, fn($pattern) => fnmatch($pattern, $routeName));
     }
 
     private function isExcludedPath(string $path): bool
