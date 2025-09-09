@@ -1,0 +1,27 @@
+name: run-tests
+
+on:
+  push:
+    paths:
+      - '**.php'
+      - '.github/workflows/run-tests.yml'
+      - 'phpunit.xml.dist'
+      - 'composer.json'
+      - 'composer.lock'
+
+jobs:
+  test-package:
+    runs-on: ubuntu-latest
+    container:
+      image: nicoverbruggen/php84-alpine:latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          composer install --no-interaction
+
+      - name: Run Tests
+        run: |
+          composer test
