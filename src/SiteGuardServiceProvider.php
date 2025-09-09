@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Mylonia\SiteGuard;
 
-use Closure;
 use Illuminate\Support\ServiceProvider;
 
 class SiteGuardServiceProvider extends ServiceProvider

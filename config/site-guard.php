@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'enabled' => env('SITE_GUARD_ENABLED', true),
     'password' => env('SITE_GUARD_PASSWORD'),

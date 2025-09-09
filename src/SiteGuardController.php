@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mylonia\SiteGuard;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\Redirector;
 
 class SiteGuardController extends Controller
 {
@@ -51,7 +53,7 @@ class SiteGuardController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (!$this->verifyPassword($request->get('password'))) {
+        if (! $this->verifyPassword($request->get('password'))) {
             return back()
                 ->withErrors(['password' => 'Invalid password, please try again.'])
                 ->withInput();

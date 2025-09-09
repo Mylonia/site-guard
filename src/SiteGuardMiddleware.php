@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mylonia\SiteGuard;
 
 use Closure;
@@ -13,7 +15,7 @@ class SiteGuardMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!config('site-guard.enabled')) {
+        if (! config('site-guard.enabled')) {
             return $next($request);
         }
 
@@ -30,7 +32,7 @@ class SiteGuardMiddleware
         }
 
         if (config('site-guard.password') == null) {
-            throw new \Exception("`SITE_GUARD_PASSWORD` is not configured in your `.env` file.");
+            throw new \Exception('`SITE_GUARD_PASSWORD` is not configured in your `.env` file.');
         }
 
         return redirect()->route('site-guard.form')
@@ -39,14 +41,15 @@ class SiteGuardMiddleware
 
     private function isExcludedRoute(?string $routeName): bool
     {
-        if (!$routeName) {
+        if (! $routeName) {
             return false;
         }
 
         $userProvidedRoutes = config('site-guard.excluded_routes', []);
 
         $excludedRoutes = array_merge($userProvidedRoutes, ['site-guard.*']);
-        return array_any($excludedRoutes, fn($pattern) => fnmatch($pattern, $routeName));
+
+        return array_any($excludedRoutes, fn ($pattern): bool => fnmatch($pattern, $routeName));
     }
 
     private function isExcludedPath(string $path): bool

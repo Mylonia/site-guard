@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mylonia\SiteGuard\Tests\Feature;
 
-use Mylonia\SiteGuard\Tests\TestCase;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Mylonia\SiteGuard\Tests\TestCase;
 
 class SiteGuardControllerTest extends TestCase
 {
@@ -15,14 +17,14 @@ class SiteGuardControllerTest extends TestCase
         $this->withoutMiddleware(ValidateCsrfToken::class);
     }
 
-    public function test_form_displays_when_not_authenticated()
+    public function test_form_displays_when_not_authenticated(): void
     {
         $this->get('/site-guard')
             ->assertStatus(200)
             ->assertViewIs('site-guard::form');
     }
 
-    public function test_form_redirects_when_already_authenticated()
+    public function test_form_redirects_when_already_authenticated(): void
     {
         session(['site_guard_authenticated' => true]);
 
@@ -31,7 +33,7 @@ class SiteGuardControllerTest extends TestCase
             ->assertRedirect('/');
     }
 
-    public function test_authenticate_with_valid_password()
+    public function test_authenticate_with_valid_password(): void
     {
         $this->post('/site-guard', ['password' => 'test-password'])
             ->assertStatus(302);
@@ -39,7 +41,7 @@ class SiteGuardControllerTest extends TestCase
         $this->assertTrue(session('site_guard_authenticated'));
     }
 
-    public function test_authenticate_with_invalid_password()
+    public function test_authenticate_with_invalid_password(): void
     {
         $this->post('/site-guard', ['password' => 'wrong-password'])
             ->assertStatus(302)
@@ -48,14 +50,14 @@ class SiteGuardControllerTest extends TestCase
         $this->assertNull(session('site_guard_authenticated'));
     }
 
-    public function test_authenticate_requires_password()
+    public function test_authenticate_requires_password(): void
     {
         $this->post('/site-guard', [])
             ->assertStatus(302)
             ->assertSessionHasErrors(['password']);
     }
 
-    public function test_redirects_to_intended_url_after_authentication()
+    public function test_redirects_to_intended_url_after_authentication(): void
     {
         session(['intended_url' => '/dashboard']);
 
@@ -66,21 +68,21 @@ class SiteGuardControllerTest extends TestCase
         $this->assertNull(session('intended_url'));
     }
 
-    public function test_redirects_to_home_when_no_intended_url()
+    public function test_redirects_to_home_when_no_intended_url(): void
     {
         $this->post('/site-guard', ['password' => 'test-password'])
             ->assertStatus(302)
             ->assertRedirect('/');
     }
 
-    public function test_form_retains_input_on_validation_error()
+    public function test_form_retains_input_on_validation_error(): void
     {
         $this->post('/site-guard', ['password' => 'wrong-password'])
             ->assertStatus(302)
             ->assertSessionHasInput('password');
     }
 
-    public function test_intended_url_is_removed_from_session_after_redirect()
+    public function test_intended_url_is_removed_from_session_after_redirect(): void
     {
         session(['intended_url' => '/admin']);
 

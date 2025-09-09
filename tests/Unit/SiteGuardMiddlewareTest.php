@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mylonia\SiteGuard\Tests\Unit;
 
 use Illuminate\Http\Request;
@@ -16,14 +18,14 @@ class SiteGuardMiddlewareTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->middleware = new SiteGuardMiddleware();
+        $this->middleware = new SiteGuardMiddleware;
     }
 
     private function assert(bool $intercepted, string $url = '/test'): void
     {
         $response = $this->middleware->handle(
             Request::create($url),
-            fn () => new Response('success')
+            fn (): \Illuminate\Http\Response => new Response('success')
         );
 
         if ($intercepted) {
@@ -49,7 +51,7 @@ class SiteGuardMiddlewareTest extends TestCase
         $this->assert(intercepted: true);
     }
 
-    public function test_allows_request_when_site_guard_disabled()
+    public function test_allows_request_when_site_guard_disabled(): void
     {
         config(['site-guard.enabled' => true]);
         $this->assert(intercepted: true);
@@ -58,7 +60,7 @@ class SiteGuardMiddlewareTest extends TestCase
         $this->assert(intercepted: false);
     }
 
-    public function test_allows_request_when_session_key_present()
+    public function test_allows_request_when_session_key_present(): void
     {
         $this->assert(intercepted: true);
 
@@ -66,13 +68,13 @@ class SiteGuardMiddlewareTest extends TestCase
         $this->assert(intercepted: false);
     }
 
-    public function test_allows_request_for_excluded_routes()
+    public function test_allows_request_for_excluded_routes(): void
     {
         $this->pretendCurrentRoute('site-guard.form');
         $this->assert(intercepted: false, url: '/site-guard');
     }
 
-    public function test_allows_request_for_user_excluded_routes()
+    public function test_allows_request_for_user_excluded_routes(): void
     {
         config(['site-guard.excluded_routes' => ['admin.*']]);
 
@@ -80,23 +82,23 @@ class SiteGuardMiddlewareTest extends TestCase
         $this->assert(intercepted: false, url: '/admin/dashboard');
     }
 
-    public function test_allows_request_for_excluded_paths()
+    public function test_allows_request_for_excluded_paths(): void
     {
         config(['site-guard.excluded_paths' => ['api/*']]);
 
         $this->assert(intercepted: false, url: '/api/users');
     }
 
-    public function test_stores_intended_url_in_session()
+    public function test_stores_intended_url_in_session(): void
     {
         $request = Request::create('/dashboard?param=value');
 
-        $this->middleware->handle($request, fn() => new Response());
+        $this->middleware->handle($request, fn (): \Illuminate\Http\Response => new Response);
 
         $this->assertStringContainsString('/dashboard?param=value', session('intended_url'));
     }
 
-    public function test_route_exclusion_with_wildcard_patterns()
+    public function test_route_exclusion_with_wildcard_patterns(): void
     {
         config(['site-guard.excluded_routes' => ['admin.*', 'api.v*']]);
 
@@ -107,7 +109,7 @@ class SiteGuardMiddlewareTest extends TestCase
         $this->assert(intercepted: false, url: '/api/v1/users');
     }
 
-    public function test_path_exclusion_with_wildcard_patterns()
+    public function test_path_exclusion_with_wildcard_patterns(): void
     {
         config(['site-guard.excluded_paths' => ['api/*', 'webhooks/*']]);
 
